@@ -191,8 +191,12 @@ h2{margin:18px 0 0;font:400 clamp(3rem,7.2vw,5.6rem)/.92 var(--display);letter-s
 /* about */
 .about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,80px);align-items:center}
 .photo{position:relative;border-radius:var(--r);overflow:hidden;border:1px solid var(--line)}
-.photo img{width:100%;height:auto;aspect-ratio:4/3.4;object-fit:cover;transition:transform 1.2s var(--ease)}
-.photo:hover img{transform:scale(1.05)}
+.photo{cursor:pointer}
+.photo .osd.lbl{top:12px;left:14px}
+.photo img,.photo video{display:block;width:100%;height:auto;aspect-ratio:4/3.4;object-fit:cover;transition:transform 1.2s var(--ease)}
+.photo:hover video{transform:scale(1.04)}
+.photo .osd.see{background:var(--red);transition:transform .3s var(--ease)}
+.photo:hover .osd.see{transform:translateY(-2px)}
 .photo .osd{font-size:.66rem;padding:5px 9px;border-radius:5px;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);text-shadow:none}
 .photo .frame{position:absolute;inset:14px;border:1px solid rgba(255,255,255,.18);pointer-events:none}
 .photo .frame::before,.photo .frame::after{content:"";position:absolute;width:22px;height:22px;border-color:#fff;border-style:solid}
@@ -403,8 +407,8 @@ footer small{font:500 .7rem var(--mono);letter-spacing:.12em;color:var(--dim)}
 .chip.new-chip{border-color:rgba(225,29,72,.45);color:#fff}
 .pc{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(28px,5vw,64px)}
 @media (max-width:900px){.pc{grid-template-columns:1fr}}
-.tl{list-style:none;margin:0;padding:0 0 0 26px;position:relative;display:grid;gap:26px}
-.tl::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--red),var(--violet),var(--blue))}
+ol.tl{list-style:none;margin:0;padding:0 0 0 26px;position:relative;display:grid;gap:26px}
+ol.tl::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--red),var(--violet),var(--blue))}
 .tl li{position:relative}
 .tl li::before{content:"";position:absolute;left:-26px;top:5px;width:12px;height:12px;border-radius:50%;border:2px solid var(--blue-hi);background:var(--bg)}
 .tl li.now::before{border-color:var(--red);background:var(--red);box-shadow:0 0 0 4px rgba(225,29,72,.2),0 0 14px var(--red)}
@@ -539,8 +543,10 @@ footer small{font:500 .7rem var(--mono);letter-spacing:.12em;color:var(--dim)}
       <span class="pill kicker rv"><span class="dot"></span>À propos</span>
       <h2 class="rv" style="--d:.08s">Un regard <span class="r">audacieux</span><br>sur chaque <span class="b">image</span>.</h2>
       <div class="about" style="margin-top:clamp(36px,5vw,60px)">
-        <div class="photo rv-x">
-          <img src="workspace.jpg" alt="Station de montage avec plusieurs écrans dans une lumière rouge et bleue" loading="lazy" width="1152" height="864">
+        <div class="photo rv-x" id="aboutReel" role="button" tabindex="0" aria-label="Voir les coulisses du tournage Pepsi">
+          <video id="aboutVid" src="about-loop.mp4" poster="about-poster.jpg" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+          <span class="osd lbl">MAKING-OF · TOURNAGES 2026</span>
+          <span class="osd br see">▶ Voir les coulisses</span>
           <span class="frame"></span>
           <span class="osd tr"><span class="rec" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red);margin-right:6px;animation:blink 1s steps(1) infinite"></span>REC</span>
           <span class="osd bl mono" id="tc2">00:00:00:00</span>
@@ -935,7 +941,7 @@ const pad = n => String(n).padStart(2,"0");
 const tcEls = [$("#tc"), $("#tc2")]; const reel = $("#reel"); const T0 = performance.now();
 function tcTick(){
   const sec = reel && !reel.paused && reel.currentTime ? reel.currentTime : (performance.now()-T0)/1000;
-  const f = Math.floor(sec*25), f2 = Math.floor((performance.now()-T0)/40) + 1834;
+  const f = Math.floor(sec*25), f2 = (()=>{const a=$("#aboutVid");return a && !a.paused ? Math.floor(a.currentTime*25) + 1834 : Math.floor((performance.now()-T0)/40) + 1834;})();
   const fmt = f => `${pad(Math.floor(f/90000)%24)}:${pad(Math.floor(f/1500)%60)}:${pad(Math.floor(f/25)%60)}:${pad(f%25)}`;
   tcEls[0].textContent = fmt(f); tcEls[1].textContent = fmt(f2);
   requestAnimationFrame(tcTick);
@@ -1005,6 +1011,15 @@ addEventListener("keydown", e => {
 });
 /* lien direct vers un projet : .../Portfolio/#mamie */
 (() => { const k = decodeURIComponent(location.hash.slice(1)); const p = P.find(x => x.k === k); if (p) setTimeout(() => openProject(p, P), 400); })();
+
+/* ---------- making-of (à propos) ---------- */
+(() => {
+  const box = $("#aboutReel"), v = $("#aboutVid"); if (!box || !v) return;
+  if (!RM) new IntersectionObserver(es => es.forEach(en => en.isIntersecting ? v.play().catch(()=>{}) : v.pause()), {threshold:.35}).observe(box);
+  const go = () => { const p = P.find(x => x.k === "bts-pepsi"); if (p) openProject(p, NEWS); };
+  box.addEventListener("click", go);
+  box.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+})();
 
 /* ---------- copier l'email ---------- */
 const toast = msg => { const t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("show"), 2200); };
