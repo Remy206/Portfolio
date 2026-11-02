@@ -384,13 +384,16 @@ footer small{font:500 .7rem var(--mono);letter-spacing:.12em;color:var(--dim)}
 .new-pill b{font-weight:700}
 .lnk{color:#fff;text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px;text-decoration-thickness:2px}
 .lnk:hover{color:var(--red-hi)}
-.hl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.62fr);grid-auto-flow:row dense;gap:18px}
+.hl{display:grid;gap:18px}
+.hl-top{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.hl-sub{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .hcard{position:relative;display:block;width:100%;padding:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#000;cursor:pointer;text-align:left;isolation:isolate;transition:transform .5s var(--ease),border-color .3s,box-shadow .5s}
 .hcard:hover,.hcard:focus-visible{transform:translateY(-6px);border-color:rgba(225,29,72,.6);box-shadow:0 30px 70px -30px rgba(225,29,72,.7),0 0 0 1px rgba(37,99,235,.25)}
 .hcard.h{aspect-ratio:16/9}
-.hcard.v{grid-column:2;grid-row:span 2}
-.hcard.feat{grid-column:1/-1;aspect-ratio:21/9}
-.hcard.feat .info strong{font-size:clamp(2.4rem,5.4vw,4.6rem)}
+.hcard.v{aspect-ratio:auto}
+.hcard.feat{aspect-ratio:4/3}
+.hl-sub .hcard.v img,.hl-sub .hcard.v video{object-position:60% 72%}
+.hcard.feat .info strong{font-size:clamp(2.2rem,3.8vw,3.4rem)}
 .hcard.feat .info p{font-size:1rem;max-width:52ch}
 .hcard.feat .go{width:64px;height:64px}
 .hcard .tag-new.top{background:linear-gradient(90deg,var(--red),var(--violet),var(--blue))}
@@ -411,7 +414,7 @@ footer small{font:500 .7rem var(--mono);letter-spacing:.12em;color:var(--dim)}
 .hcard .go{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--red);box-shadow:0 0 0 0 rgba(225,29,72,.55);transition:transform .35s var(--ease);animation:ring 2.2s infinite}
 .hcard:hover .go{transform:scale(1.1)}
 .hcard .go svg{width:18px;height:18px;fill:#fff;margin-left:3px}
-@media (max-width:860px){.hl{grid-template-columns:1fr}.hcard.feat{aspect-ratio:16/10}.hcard.v{grid-column:auto;grid-row:auto;aspect-ratio:4/5}.hcard .info p{display:none}}
+@media (max-width:860px){.hl-top,.hl-sub{grid-template-columns:1fr}.hcard.feat{aspect-ratio:1/1}.hl-sub .hcard.h{aspect-ratio:16/10}.hcard.v{aspect-ratio:4/5}.hcard .info p{display:none}}
 .badge.new{left:auto;right:auto;top:auto;bottom:12px;left:12px;background:var(--red);border-color:transparent;color:#fff;box-shadow:0 0 18px -4px rgba(225,29,72,.9)}
 .clip.is-new{border-color:rgba(225,29,72,.35)}
 .chip.new-chip{border-color:rgba(225,29,72,.45);color:#fff}
@@ -753,10 +756,10 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":
 // id: id Drive · t: titre · c: catégorie · th: miniature · f: format (v = vertical, h = horizontal, p = visuel)
 const P = [
   {k:"showreel",t:"Showreel monteur vidéo",c:"Showreel",id:"1obh-UC7-WZ7SyY60JLp77iMsHJRfE9JX",th:"showreel",f:"h"},
-  {k:"pepsi-film",t:"Pepsi · Le film",c:"Court-métrage",id:"1Vv_p2vDfyXlwrdArkWygnamUSt8wJIop",th:"pepsi-yt",f:"h",d:"Pub 16:9",dur:"1:34",isNew:1,feat:1,pv:"pepsi-yt",blurb:"Paris en pleine canicule, un playground écrasé de chaleur… jusqu'à la première gorgée. La version longue de la pub Pepsi."},
-  {k:"mamie",t:"Teaser Mamie",c:"Court-métrage",id:"1dEK6NQMu-ZpzYczuHPNMcCVENRfztvJY",th:"mamie",f:"h",d:"Montage · acteur",dur:"1:06",isNew:1,pv:"mamie",blurb:"« Ramène ta grand-mère… mais la vraie. » J'ai fait le montage de ce teaser comique, et je joue l'ami de la mamie."},
-  {k:"pepsi",t:"Pepsi · Basket",c:"Court-métrage",id:"1AtaGRlYghVTlg5Qm6eMTGTtniG-SN2qi",th:"pepsi",f:"v",d:"Pub vertical",dur:"0:39",isNew:1,pv:"pepsi",blurb:"Un film vertical rythmé : un playground, une partie de basket et un final au pied de la tour Eiffel."},
-  {k:"bts-pepsi",t:"Pepsi · Behind the scenes",c:"Court-métrage",id:"1R95fOK-YNdlLYpWA69Wpm6CuGyCvBTFm",th:"bts-pepsi",f:"h",d:"Coulisses 4K",dur:"1:40",isNew:1,pv:"bts-pepsi",blurb:"Les coulisses du tournage Pepsi : l'équipe, le cadre et les prises sur le terrain."},
+  {k:"pepsi-film",t:"Pepsi · Le film",c:"Court-métrage",id:"1Vv_p2vDfyXlwrdArkWygnamUSt8wJIop",th:"pepsi-yt",f:"h",d:"Réalisation · montage",dur:"1:34",isNew:1,feat:1,pv:"pepsi-yt",blurb:"Paris en pleine canicule, un playground écrasé de chaleur… jusqu'à la première gorgée. J'ai réalisé et monté cette pub Pepsi."},
+  {k:"mamie",t:"Teaser Mamie",c:"Court-métrage",id:"1dEK6NQMu-ZpzYczuHPNMcCVENRfztvJY",th:"mamie",f:"h",d:"Montage · acteur",dur:"1:06",isNew:1,feat:1,pv:"mamie",blurb:"« Ramène ta grand-mère… mais la vraie. » J'ai fait le montage de ce teaser comique, et je joue l'ami de la mamie."},
+  {k:"pepsi",t:"Pepsi · Basket",c:"Court-métrage",id:"1AtaGRlYghVTlg5Qm6eMTGTtniG-SN2qi",th:"pepsi",f:"v",d:"Réalisation · montage",dur:"0:39",isNew:1,pv:"pepsi",blurb:"La version verticale de ma pub Pepsi : un playground, une partie de basket et un final au pied de la tour Eiffel."},
+  {k:"bts-pepsi",t:"Pepsi · Behind the scenes",c:"Court-métrage",id:"1R95fOK-YNdlLYpWA69Wpm6CuGyCvBTFm",th:"bts-pepsi",f:"h",d:"Coulisses 4K",dur:"1:40",isNew:1,pv:"bts-pepsi",blurb:"Les coulisses de mon tournage Pepsi : l'équipe, le cadre et les prises sur le terrain."},
   {t:"Air Jordan I",c:"Pub & trailer",id:"1gK0ACfpujWr-Y-4MKCDYtD_tkuLGmGls",th:"airjordan",f:"h",d:"Pub 3D"},
   {t:"L'Oreille du Diable",c:"Court-métrage",id:"10eydIi_cdaAU7Rr5LFI1KEkFbNwf_0kE",th:"oreille",f:"h"},
   {t:"Logo Keeper VR",c:"Motion design",id:"1dSm2TLFgCsHiIxXv8qVdBAXQ1FUajyDk",th:"logo-keeper",f:"h",d:"Animation de logo"},
@@ -870,7 +873,7 @@ grid.addEventListener("pointermove", e => {
 
 /* ---------- nouveautés ---------- */
 const hl = $("#hl");
-hl.innerHTML = NEWS.map(p => `
+const hcardHTML = p => `
   <button class="hcard ${p.f}${p.feat ? " feat" : ""} rv" type="button" data-i="${p.i}" aria-label="Lire : ${esc(p.t)}">
     <img src="thumbs/${p.th}.webp" alt="" loading="lazy" decoding="async">
     ${p.pv ? `<video src="previews/${p.pv}.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>` : ""}
@@ -880,7 +883,9 @@ hl.innerHTML = NEWS.map(p => `
       <span><small>${esc(p.c)}${p.d ? " · " + esc(p.d) : ""}</small><strong>${esc(p.t)}</strong>${p.blurb ? `<p>${esc(p.blurb)}</p>` : ""}</span>
       <span class="go"><svg viewBox="0 0 24 24"><use href="#i-play"/></svg></span>
     </span>
-  </button>`).join("");
+  </button>`;
+const FEAT = NEWS.filter(p => p.feat), SUB = NEWS.filter(p => !p.feat).sort((a,b) => (a.f === "v") - (b.f === "v"));
+hl.innerHTML = (FEAT.length ? `<div class="hl-top">${FEAT.map(hcardHTML).join("")}</div>` : "") + (SUB.length ? `<div class="hl-sub">${SUB.map(hcardHTML).join("")}</div>` : "");
 const hoverable = matchMedia("(hover: hover)").matches;
 const startPv = c => { const v = c.querySelector("video"); if (!v || RM) return; v.play().then(() => c.classList.add("playing")).catch(() => {}); };
 const stopPv = c => { const v = c.querySelector("video"); if (!v) return; v.pause(); c.classList.remove("playing"); };
@@ -894,7 +899,7 @@ if (!hoverable && !RM) {
   const pio = new IntersectionObserver(es => es.forEach(en => en.isIntersecting ? startPv(en.target) : stopPv(en.target)), {threshold:.6});
   $$(".hcard").forEach(c => pio.observe(c));
 }
-hl.addEventListener("click", e => { const c = e.target.closest(".hcard"); if (c) openProject(P[+c.dataset.i], NEWS); });
+hl.addEventListener("click", e => { const c = e.target.closest(".hcard"); if (c) openProject(P[+c.dataset.i], [...FEAT, ...SUB]); });
 
 /* ---------- top 3 YouTube ---------- */
 $("#top3").innerHTML = YT.map((v,i) => `
