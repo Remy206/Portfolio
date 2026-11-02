@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#0b0b0d">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Rémy Cao — Monteur vidéo & cadreur">
-<meta property="og:description" content="Showreel, courts-métrages, pubs, motion design. Nouveaux projets : teaser Mamie, pub Pepsi basket et ses coulisses.">
+<meta property="og:description" content="Showreel, courts-métrages, pubs, motion design. Nouveaux projets : le film Pepsi, le teaser Mamie, Pepsi basket et ses coulisses.">
 <meta property="og:image" content="og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23e11d48'/%3E%3Cstop offset='1' stop-color='%232563eb'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='12' fill='url(%23g)'/%3E%3Ctext x='32' y='43' font-family='Arial Black,Arial' font-weight='900' font-size='28' fill='white' text-anchor='middle'%3ERC%3C/text%3E%3C/svg%3E">
@@ -384,11 +384,16 @@ footer small{font:500 .7rem var(--mono);letter-spacing:.12em;color:var(--dim)}
 .new-pill b{font-weight:700}
 .lnk{color:#fff;text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px;text-decoration-thickness:2px}
 .lnk:hover{color:var(--red-hi)}
-.hl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.62fr);grid-template-rows:auto auto;gap:18px}
+.hl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.62fr);grid-auto-flow:row dense;gap:18px}
 .hcard{position:relative;display:block;width:100%;padding:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#000;cursor:pointer;text-align:left;isolation:isolate;transition:transform .5s var(--ease),border-color .3s,box-shadow .5s}
 .hcard:hover,.hcard:focus-visible{transform:translateY(-6px);border-color:rgba(225,29,72,.6);box-shadow:0 30px 70px -30px rgba(225,29,72,.7),0 0 0 1px rgba(37,99,235,.25)}
 .hcard.h{aspect-ratio:16/9}
-.hcard.v{grid-column:2;grid-row:1/3}
+.hcard.v{grid-column:2;grid-row:span 2}
+.hcard.feat{grid-column:1/-1;aspect-ratio:21/9}
+.hcard.feat .info strong{font-size:clamp(2.4rem,5.4vw,4.6rem)}
+.hcard.feat .info p{font-size:1rem;max-width:52ch}
+.hcard.feat .go{width:64px;height:64px}
+.hcard .tag-new.top{background:linear-gradient(90deg,var(--red),var(--violet),var(--blue))}
 .hcard img,.hcard video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease),opacity .5s}
 .hcard video{opacity:0}
 .hcard.playing video{opacity:1}
@@ -406,7 +411,7 @@ footer small{font:500 .7rem var(--mono);letter-spacing:.12em;color:var(--dim)}
 .hcard .go{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--red);box-shadow:0 0 0 0 rgba(225,29,72,.55);transition:transform .35s var(--ease);animation:ring 2.2s infinite}
 .hcard:hover .go{transform:scale(1.1)}
 .hcard .go svg{width:18px;height:18px;fill:#fff;margin-left:3px}
-@media (max-width:860px){.hl{grid-template-columns:1fr}.hcard.v{grid-column:auto;grid-row:auto;aspect-ratio:4/5}.hcard .info p{display:none}}
+@media (max-width:860px){.hl{grid-template-columns:1fr}.hcard.feat{aspect-ratio:16/10}.hcard.v{grid-column:auto;grid-row:auto;aspect-ratio:4/5}.hcard .info p{display:none}}
 .badge.new{left:auto;right:auto;top:auto;bottom:12px;left:12px;background:var(--red);border-color:transparent;color:#fff;box-shadow:0 0 18px -4px rgba(225,29,72,.9)}
 .clip.is-new{border-color:rgba(225,29,72,.35)}
 .chip.new-chip{border-color:rgba(225,29,72,.45);color:#fff}
@@ -748,6 +753,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":
 // id: id Drive · t: titre · c: catégorie · th: miniature · f: format (v = vertical, h = horizontal, p = visuel)
 const P = [
   {k:"showreel",t:"Showreel monteur vidéo",c:"Showreel",id:"1obh-UC7-WZ7SyY60JLp77iMsHJRfE9JX",th:"showreel",f:"h"},
+  {k:"pepsi-film",t:"Pepsi · Le film",c:"Court-métrage",id:"1Vv_p2vDfyXlwrdArkWygnamUSt8wJIop",th:"pepsi-yt",f:"h",d:"Pub 16:9",dur:"1:34",isNew:1,feat:1,pv:"pepsi-yt",blurb:"Paris en pleine canicule, un playground écrasé de chaleur… jusqu'à la première gorgée. La version longue de la pub Pepsi."},
   {k:"mamie",t:"Teaser Mamie",c:"Court-métrage",id:"1dEK6NQMu-ZpzYczuHPNMcCVENRfztvJY",th:"mamie",f:"h",d:"Montage · acteur",dur:"1:06",isNew:1,pv:"mamie",blurb:"« Ramène ta grand-mère… mais la vraie. » J'ai fait le montage de ce teaser comique, et je joue l'ami de la mamie."},
   {k:"pepsi",t:"Pepsi · Basket",c:"Court-métrage",id:"1AtaGRlYghVTlg5Qm6eMTGTtniG-SN2qi",th:"pepsi",f:"v",d:"Pub vertical",dur:"0:39",isNew:1,pv:"pepsi",blurb:"Un film vertical rythmé : un playground, une partie de basket et un final au pied de la tour Eiffel."},
   {k:"bts-pepsi",t:"Pepsi · Behind the scenes",c:"Court-métrage",id:"1R95fOK-YNdlLYpWA69Wpm6CuGyCvBTFm",th:"bts-pepsi",f:"h",d:"Coulisses 4K",dur:"1:40",isNew:1,pv:"bts-pepsi",blurb:"Les coulisses du tournage Pepsi : l'équipe, le cadre et les prises sur le terrain."},
@@ -865,10 +871,10 @@ grid.addEventListener("pointermove", e => {
 /* ---------- nouveautés ---------- */
 const hl = $("#hl");
 hl.innerHTML = NEWS.map(p => `
-  <button class="hcard ${p.f} rv" type="button" data-i="${p.i}" aria-label="Lire : ${esc(p.t)}">
+  <button class="hcard ${p.f}${p.feat ? " feat" : ""} rv" type="button" data-i="${p.i}" aria-label="Lire : ${esc(p.t)}">
     <img src="thumbs/${p.th}.webp" alt="" loading="lazy" decoding="async">
     ${p.pv ? `<video src="previews/${p.pv}.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>` : ""}
-    <span class="tag-new">Nouveau</span>
+    <span class="tag-new${p.feat ? " top" : ""}">${p.feat ? "À ne pas rater" : "Nouveau"}</span>
     ${p.dur ? `<span class="dur">${p.dur}</span>` : ""}
     <span class="info">
       <span><small>${esc(p.c)}${p.d ? " · " + esc(p.d) : ""}</small><strong>${esc(p.t)}</strong>${p.blurb ? `<p>${esc(p.blurb)}</p>` : ""}</span>
